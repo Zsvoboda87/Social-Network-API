@@ -93,10 +93,10 @@ router.post("/:thoughtId/reactions", ({ params, body }, res) => {
     .catch((err) => res.json(err));
 });
 
-router.delete("/:thoughtId/reactions/:reactionId", ({ params}, res) => {
+router.delete("/:thoughtId/reactions/:reactionId", ({params}, res) => {
     Thought.findOneAndUpdate(
       { _id: params.thoughtId },
-      { $pull: { reactions: params.reactionId } },
+      { $pull: { reactions: { _id: params.reactionId} } },
       { new: true}
     )
       .then((dbThought) => {
