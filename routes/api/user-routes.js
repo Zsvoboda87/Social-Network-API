@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
 
 // Get User by ID
 router.get("/:id", ({ params }, res) => {
-  Note.findOne({ _id: params.id })
+  User.findOne({ _id: params.id })
     .populate({ path: "thoughts" })
     .then((dbUser) => {
       if (!dbUser) {
@@ -23,7 +23,7 @@ router.get("/:id", ({ params }, res) => {
 });
 
 // Post New User
-router.post("/users", ({ body }, res) => {
+router.post("/", ({ body }, res) => {
   // Use the `create()` method to create a new note using the data in `body`
   User.create(body)
     .then((dbUser) => res.json(dbUser))
@@ -31,7 +31,7 @@ router.post("/users", ({ body }, res) => {
   //
 });
 
-router.post('/update/:id', ({ params, body }, res) => {
+router.put('/update/:id', ({ params, body }, res) => {
   User.findOneAndUpdate({ _id: params.id }, body, { new: true })
     .then(dbUser => {
       if (!dbUser) {
