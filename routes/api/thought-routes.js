@@ -5,6 +5,7 @@ const { User, Thought } = require("../../models");
 // get all Thoughts
 router.get("/", (req, res) => {
   Thought.find({})
+  .sort({ _id: -1 })
     .then((db) => {
       if (!db) {
         res.status(404).json({ message: "No thought found with this ID!" });

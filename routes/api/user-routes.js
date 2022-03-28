@@ -1,9 +1,13 @@
 const router = require("express").Router();
+const { DefaultDeserializer } = require("v8");
 const { User, Thought } = require("../../models");
+const { db } = require("../../models/User");
 
 // Get All Users
 router.get("/", (req, res) => {
   User.find({})
+  .populate({ path: "thoughts" })
+  .sort({ _id: -1 })
     .then((dbUser) => res.json(dbUser))
     .catch((err) => res.status(400).json(err));
 });
@@ -54,6 +58,7 @@ router.delete('/delete/:id', ({params}, res) => {
       res.json({message: "No user found with this id!"});
       return;
     }
+    Thought.deleteMany({_id:{$in:dbUser.thoughts}})
     res.json(dbUser);
   })
   .catch(err => {
